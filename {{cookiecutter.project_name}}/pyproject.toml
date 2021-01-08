@@ -8,6 +8,8 @@ authors = []
 python = "^3.9"
 toml = "^0.10.2"
 django = "^3.1"
+python-decouple = "^3.4"
+dj-database-url = "^0.5"
 
 [tool.poetry.dev-dependencies]
 # Formatting
