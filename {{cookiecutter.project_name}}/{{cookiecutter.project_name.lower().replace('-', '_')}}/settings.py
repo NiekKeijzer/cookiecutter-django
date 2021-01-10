@@ -10,24 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-from decouple import config, Csv
+from decouple import Csv, config
 from dj_database_url import parse as db_url
 
+from .constants import PROJECT_DIRECTORY, TEMP_DIRECTORY
+
 # Build paths inside the project like this: BASE_DIR / "subdir".
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = PROJECT_DIRECTORY
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool, default=False)
+DEBUG = config("DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = config('ALLOWED_HOST', cast=Csv(), default='localhost')
+ALLOWED_HOSTS = config("ALLOWED_HOST", cast=Csv(), default="localhost,127.0.0.1")
 
 
 # Application definition
@@ -76,7 +77,11 @@ WSGI_APPLICATION = "{{cookiecutter.project_name.lower().replace('-', '_')}}.wsgi
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    "default": config('DATABASE_URL', cast=db_url, default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}" )
+    "default": config(
+        "DATABASE_URL",
+        cast=db_url,
+        default=f"sqlite:///{TEMP_DIRECTORY / 'db.sqlite3'}",
+    )
 }
 
 
@@ -87,15 +92,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 

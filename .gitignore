@@ -169,3 +169,4 @@ Temporary Items
 
 # Project
 demo/
+!{{cookiecutter.project_name}}/.env
